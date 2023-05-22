@@ -1,4 +1,5 @@
 <?php require_once VIEW_LAYOUT_PATH . 'header.php' ?>
+<?php $consultas = $viewData["datosConsulta"] ?? array(); ?>
 <!-- INSERTAR CONTENIDO -->
 
 <div class="container mt-4">
@@ -10,62 +11,38 @@
             </form>
         </div>
     </div>
-    <form action="<?= URL ?>Home/cargarConsultasFechas/" method="post">
-        <?php if (count($viewData['fechas']) > 0) : ?>
-            <div class="row">
-                <div class="col-sm-11">
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="fecha">
-                        <option selected>Seleccione la fecha de consulta</option>
-                        <?php foreach ($viewData['fechas'] as $fecha) : ?>
-                            <option value="<?= $fecha['fecha_consulta'] ?>"><?= $fecha['fecha_consulta'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <input type="hidden" name="id" value="<?= $fecha["id_usuario"]?>">
-                <div class="col-sm-1">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="sudmit"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                </div>
-            </div>
-        <?php else:?>
-            <h5>No hay fechas de consulta</h5> 
-        <?php endif; ?>
-    </form>
-    <table class="table table-light">
-        <thead class="thead-light">
-            <tr>
-                <th>Nombre del paciente</th>
-                <th>Padecimientos</th>
-                <th>Alergias</th>
-                <th>Motivo de consulta</th>
-                <th>Fecha de la consulta</th>
-                <th>Medicamentos</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (count($viewData['fechas']) > 0) : ?>
-                    <?php foreach ($viewData['fechas'] as $datos) : ?>
-                        <tr>
-                            <td><?= $datos['nombre']?></td>
-                            <td><?= $datos['padecimientos']?></td>
-                            <td><?= $datos['alergias']?></td>
-                            <td><?= $datos['descripcion']?></td>
-                            <td><?= $datos['fecha_consulta']?></td>
-                            <td class = "text-center">
-                                <a href="<?= URL ?>Home/vistaMedicamento/?id=<?= $datos["id_consulta"] ?>" title="Ver medicamentos" class="btn btn-info"> 
-                                    <i class="fa-sharp fa-solid fa-pills"></i>
-                                 </a>
-                            </td>
-                        </tr> 
-                    <?php endforeach; ?>
-                <?php else: ?>
+    <div class="table-responsive">
+        <table class="shadow-lg p-3 mb-5 bg-white rounded table table-striped table-bordered text-nowrap text-center" id="tabla-ejemplo">
+            <thead class="thead-light">
+                <tr>
+                    <th>Nombre del paciente</th>
+                    <th>Padecimientos</th>
+                    <th>Alergias</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Medicamentos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($consultas as $consulta) : ?>
                     <tr>
-                        <td colspan = "6" class = "text-center">No hay datos</td>
+                        <td><?= $consulta['nombre'] ?></td>
+                        <td><?= $consulta['padecimientos'] ?></td>
+                        <td><?= $consulta['alergias'] ?></td>
+                        <td><?= $consulta['descripcion'] ?></td>
+                        <td><?= date('d-m-Y', strtotime($consulta['fecha_consulta'])) ?></td>
+                        <td>
+                            <ul>
+                                <?php foreach (json_decode($consulta['medicamento'], true) ?? array() as $medicamento) : ?>
+                                    <li><?= $medicamento['medicamento'] ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
                     </tr>
-                <?php endif; ?>
-        </tbody>
-    </table>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <!-- FIN CONTENIDO -->
 
