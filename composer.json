@@ -1,0 +1,17 @@
+{
+    "name": "luis/clinica-sv-paciente",
+    "autoload": {
+        "psr-4": {
+            "Luis\\ClinicaSvPaciente\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luis Vasquez",
+            "email": "67530718+LuisVasquez23@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "spipu/html2pdf": "^5.2"
+    }
+}

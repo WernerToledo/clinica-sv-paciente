@@ -13,14 +13,14 @@
     </div>
     <div class="table-responsive">
         <table class="shadow-lg p-3 mb-5 bg-white rounded table table-striped table-bordered text-nowrap text-center" id="tabla-ejemplo">
-            <thead class="thead-light">
+            <thead class="thead-dark bg-dark text-white">
                 <tr>
                     <th>Nombre del paciente</th>
                     <th>Padecimientos</th>
                     <th>Alergias</th>
                     <th>Descripción</th>
                     <th>Fecha</th>
-                    <th>Medicamentos</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,11 +32,9 @@
                         <td><?= $consulta['descripcion'] ?></td>
                         <td><?= date('d-m-Y', strtotime($consulta['fecha_consulta'])) ?></td>
                         <td>
-                            <ul>
-                                <?php foreach (json_decode($consulta['medicamento'], true) ?? array() as $medicamento) : ?>
-                                    <li><?= $medicamento['medicamento'] ?></li>
-                                <?php endforeach; ?>
-                            </ul>
+                            <a href="<?= URL ?>Home/generarReporte/?id=<?= $consulta['id_consulta'] ?>" target="_blank" title="Reporte" class="btn btn-danger">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

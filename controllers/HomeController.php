@@ -32,4 +32,21 @@ class HomeController extends Controller
 
         $this->RenderView("Home/Index", $viewData);
     }
+
+    public function generarReporte()
+    {
+
+        if (!isset($_GET['id'])) {
+            header('location: ' . URL . 'DoctoresConsultas');
+        }
+
+        // Obtener el id de la consulta
+        $idConsulta = $_GET['id'];
+
+        $consulta = $this->homeModel->BuscarConsulta($idConsulta);
+
+        $viewData['consulta'] = $consulta;
+
+        $this->RenderView('Home/reporte', $viewData);
+    }
 }
